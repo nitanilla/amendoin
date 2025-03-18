@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<!--suppress SpellCheckingInspection, HtmlUnknownTarget -->
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The 3 meta tags above *must* come first in the head; any other head content must come *after* these tags -->
+    <title>DSM3 - NFR</title>
+    <meta name="description" content="example of using DSM3-goals to build a tool for a specific language.">
+    <meta name="author" content="João Pimentel">
+    <link rel="icon" href="https://www.cin.ufpe.br/~jhcp/dsm3goals/app/ui/images/favicon.ico">
+
+    <!-- bootstrap styles -->
+    <link href="index%20Archivos/bootstrap.min.css" rel="stylesheet">  <!-- Bootstrap core CSS -->
+    <!-- library-specific styles -->
+    <link href="index%20Archivos/joint.min.css" rel="stylesheet"> <!-- joint js -->
+    <link href="index%20Archivos/bootstrap-editable.css" rel="stylesheet"> <!-- x-editable -->
+    <!-- tool styles -->
+    <link href="index%20Archivos/dsm3.css" rel="stylesheet">
+</head>
+
+<body>
+<div id="tool">
+    <div class="menu-bar">
+        <div id="logo">
+            <a href="https://www.cin.ufpe.br/~jhcp/dsm3goals/index.html" target="_blank" title="Open a instance of the tool in a new tab">DSM3 - NFR</a>
+        </div>
+        <nav class="menu-items">
+            <a class="menu-item" href="#" id="menu-item-file" data-toggle="menu-file">File</a>
+            <a class="menu-item active" href="#" id="menu-item-add" data-toggle="menu-add">Add</a>
+            <a class="menu-item" href="#" id="menu-item-diagram" data-toggle="menu-diagram">Options</a>
+            <a class="menu-item" href="#" id="menu-item-plugin" data-toggle="menu-plugin">Plugins</a>
+        </nav>
+    </div>
+
+    <div id="menu-bodies">
+        <div id="menu-file" class="menu-body hidden">
+            <div class="menu-group">
+                <div class="menu-line">
+                    <a class="btn btn-default button-vertical" id="menu-button-new-model" title="Create a new model in the same window">
+                        <!--data-toggle="modal" data-target="#modal-new-model"-->
+                        <span class="glyphicon glyphicon-file" aria-hidden="true"></span><br>
+                        New Model
+                    </a>
+
+                    <a class="btn btn-default button-vertical" id="menu-button-save-model" title="Save (download) the model to your computer">
+                        <span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span><br>
+                        Save Model
+                    </a>
+
+                    <a class="btn btn-default button-vertical" id="menu-button-load-model" data-toggle="modal" data-target="#modal-load-model" title="Load a previously saved model">
+                        <span class="glyphicon glyphicon-floppy-open" aria-hidden="true"></span><br>
+                        Load Model
+                    </a>
+
+                </div>
+            </div>
+            <div class="menu-group">
+                <div class="menu-line">
+
+                    <a class="btn btn-default button-vertical" id="menu-button-save-image" title="Save (download) model as a SVG or PNG image file" data-toggle="modal" data-target="#modal-save-image">
+                        <span class="glyphicon glyphicon-picture" aria-hidden="true"></span><br>
+                        Save Image
+                    </a>
+
+                </div>
+            </div>
+        </div>
+        <div id="menu-add" class="menu-body">
+            <div class="menu-group">
+                <div class="menu-line">
+
+                    <div class="add-dropdown-button dropdown">
+                        <button class="btn add-button btn-default dropdown-toggle" type="button" id="menu-dropdown-actors" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title="Add some kind of Actor" style="display: none;">
+                            <img src="index%20Archivos/Actor.svg" height="25" alt=""><br>
+                            Actor...
+                            <span class="caret"></span>
+                        </button>
+                        <ul id="add-actor-dropdown" class="dropdown-menu" aria-labelledby="menu-dropdown-actors"></ul>
+                    </div>
+
+                    <div class="add-dropdown-button dropdown">
+                        <button class="btn add-button btn-default dropdown-toggle" type="button" id="menu-dropdown-actor-links" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title="Add links between actors" style="display: none;">
+                            <img src="index%20Archivos/IsALink.svg" height="25" alt=""><br>
+                            Actor links...
+                            <span class="caret"></span>
+                        </button>
+                        <ul id="add-actor-link-dropdown" class="dropdown-menu" aria-labelledby="menu-dropdown-actor-links"></ul>
+                    </div>
+
+                    <div class="add-dropdown-button dropdown">
+                        <button class="btn add-button btn-default dropdown-toggle" type="button" id="menu-dropdown-dependency-links" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title="Add dependency link" style="display: none;">
+                            <img src="index%20Archivos/DependencyLink.svg" height="25" alt=""><br>
+                            Dependency...
+                            <span class="caret"></span>
+                        </button>
+                        <ul id="add-dependency-dropdown" class="dropdown-menu" aria-labelledby="menu-dropdown-dependency-links"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-group">
+                <div class="menu-line">
+                    <span id="add-internal-cells-palette" class="add-button"><span class="add-button">
+    <button type="button" class="btn btn-default add-button" id="add-NFR" title="Add NFR">
+        <img src="index%20Archivos/NFR.svg" height="25" alt="" onerror="this.onerror=null;this.src='language/nfr/images/DefaultNode.svg';">
+        <br>NFR
+    </button>
+</span><span class="add-button">
+    <button type="button" class="btn btn-default add-button" id="add-Operationalization" title="Add Operationalization">
+        <img src="index%20Archivos/Operationalization.svg" height="25" alt="" onerror="this.onerror=null;this.src='language/nfr/images/DefaultNode.svg';">
+        <br>Operationalization
+    </button>
+</span><span class="add-button">
+    <button type="button" class="btn btn-default add-button" id="add-Claim" title="Add Claim">
+        <img src="index%20Archivos/Claim.svg" height="25" alt="" onerror="this.onerror=null;this.src='language/nfr/images/DefaultNode.svg';">
+        <br>Claim
+    </button>
+</span><span class="add-button">
+    <button type="button" class="btn btn-default add-button" id="add-And" title="Add And-Refinement link">
+        <img src="index%20Archivos/AndRefinementLink.svg" height="25" alt="" onerror="this.onerror=null;this.src='language/nfr/images/DefaultContainerLink.svg';">
+        <br>And
+    </button>
+</span><span class="add-button">
+    <button type="button" class="btn btn-default add-button" id="add-Or" title="Add Or-Refinement link">
+        <img src="index%20Archivos/OrRefinementLink.svg" height="25" alt="" onerror="this.onerror=null;this.src='language/nfr/images/DefaultContainerLink.svg';">
+        <br>Or
+    </button>
+</span><span class="add-dropdown-button">
+    <div class="add-dropdown-button dropdown">
+        <button class="btn add-button btn-default dropdown-toggle" type="button" id="menu-dropdown-ContributionLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title="Add Contribution link (++, +, some+, some-, -, --, or unknown)">
+            <img src="index%20Archivos/ContributionLink.svg" height="25" alt="" onerror="this.onerror=null;this.src='language/nfr/images/DefaultContainerLink.svg';"><br>
+            Contribution...
+            <span class="caret"></span>
+        </button>
+        <ul id="add-ContributionLink-dropdown" class="dropdown-menu" aria-labelledby="menu-dropdown-ContributionLink"><li parent="#add-ContributionLink-dropdown">
+    <a id="d-add-ContributionLink" title="Add a ++ ContributionLink" href="#">
+        <img id="d-add-ContributionLink-img" src="index%20Archivos/DefaultContainerLink.svg" height="35" alt="" onerror="this.onerror=null;this.src='language/nfr/images/DefaultContainerLink.svg';">
+        ++
+    </a>
+</li><li parent="#add-ContributionLink-dropdown">
+    <a id="d-add-ContributionLink" title="Add a + ContributionLink" href="#">
+        <img id="d-add-ContributionLink-img" src="index%20Archivos/DefaultContainerLink.svg" height="35" alt="" onerror="this.onerror=null;this.src='language/nfr/images/DefaultContainerLink.svg';">
+        +
+    </a>
+</li><li parent="#add-ContributionLink-dropdown">
+    <a id="d-add-ContributionLink" title="Add a some+ ContributionLink" href="#">
+        <img id="d-add-ContributionLink-img" src="index%20Archivos/DefaultContainerLink.svg" height="35" alt="" onerror="this.onerror=null;this.src='language/nfr/images/DefaultContainerLink.svg';">
+        some+
+    </a>
+</li><li parent="#add-ContributionLink-dropdown">
+    <a id="d-add-ContributionLink" title="Add a some- ContributionLink" href="#">
+        <img id="d-add-ContributionLink-img" src="index%20Archivos/DefaultContainerLink.svg" height="35" alt="" onerror="this.onerror=null;this.src='language/nfr/images/DefaultContainerLink.svg';">
+        some-
+    </a>
+</li><li parent="#add-ContributionLink-dropdown">
+    <a id="d-add-ContributionLink" title="Add a – ContributionLink" href="#">
+        <img id="d-add-ContributionLink-img" src="index%20Archivos/DefaultContainerLink.svg" height="35" alt="" onerror="this.onerror=null;this.src='language/nfr/images/DefaultContainerLink.svg';">
+        –
+    </a>
+</li><li parent="#add-ContributionLink-dropdown">
+    <a id="d-add-ContributionLink" title="Add a – – ContributionLink" href="#">
+        <img id="d-add-ContributionLink-img" src="index%20Archivos/DefaultContainerLink.svg" height="35" alt="" onerror="this.onerror=null;this.src='language/nfr/images/DefaultContainerLink.svg';">
+        – –
+    </a>
+</li><li parent="#add-ContributionLink-dropdown">
+    <a id="d-add-ContributionLink" title="Add a unknown ContributionLink" href="#">
+        <img id="d-add-ContributionLink-img" src="index%20Archivos/DefaultContainerLink.svg" height="35" alt="" onerror="this.onerror=null;this.src='language/nfr/images/DefaultContainerLink.svg';">
+        unknown
+    </a>
+</li></ul>
+    </div>
+</span><span class="add-dropdown-button">
+    <div class="add-dropdown-button dropdown">
+        <button class="btn add-button btn-default dropdown-toggle" type="button" id="menu-dropdown-CorrelationLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title="Add Correlation link (++, +, some+, some-, -, --, or unknown)">
+            <img src="index%20Archivos/CorrelationLink.svg" height="25" alt="" onerror="this.onerror=null;this.src='language/nfr/images/DefaultContainerLink.svg';"><br>
+            Correlation...
+            <span class="caret"></span>
+        </button>
+        <ul id="add-CorrelationLink-dropdown" class="dropdown-menu" aria-labelledby="menu-dropdown-CorrelationLink"><li parent="#add-CorrelationLink-dropdown">
+    <a id="d-add-CorrelationLink" title="Add a ++ CorrelationLink" href="#">
+        <img id="d-add-CorrelationLink-img" src="index%20Archivos/DefaultContainerLink.svg" height="35" alt="" onerror="this.onerror=null;this.src='language/nfr/images/DefaultContainerLink.svg';">
+        ++
+    </a>
+</li><li parent="#add-CorrelationLink-dropdown">
+    <a id="d-add-CorrelationLink" title="Add a + CorrelationLink" href="#">
+        <img id="d-add-CorrelationLink-img" src="index%20Archivos/DefaultContainerLink.svg" height="35" alt="" onerror="this.onerror=null;this.src='language/nfr/images/DefaultContainerLink.svg';">
+        +
+    </a>
+</li><li parent="#add-CorrelationLink-dropdown">
+    <a id="d-add-CorrelationLink" title="Add a some+ CorrelationLink" href="#">
+        <img id="d-add-CorrelationLink-img" src="index%20Archivos/DefaultContainerLink.svg" height="35" alt="" onerror="this.onerror=null;this.src='language/nfr/images/DefaultContainerLink.svg';">
+        some+
+    </a>
+</li><li parent="#add-CorrelationLink-dropdown">
+    <a id="d-add-CorrelationLink" title="Add a some- CorrelationLink" href="#">
+        <img id="d-add-CorrelationLink-img" src="index%20Archivos/DefaultContainerLink.svg" height="35" alt="" onerror="this.onerror=null;this.src='language/nfr/images/DefaultContainerLink.svg';">
+        some-
+    </a>
+</li><li parent="#add-CorrelationLink-dropdown">
+    <a id="d-add-CorrelationLink" title="Add a – CorrelationLink" href="#">
+        <img id="d-add-CorrelationLink-img" src="index%20Archivos/DefaultContainerLink.svg" height="35" alt="" onerror="this.onerror=null;this.src='language/nfr/images/DefaultContainerLink.svg';">
+        –
+    </a>
+</li><li parent="#add-CorrelationLink-dropdown">
+    <a id="d-add-CorrelationLink" title="Add a – – CorrelationLink" href="#">
+        <img id="d-add-CorrelationLink-img" src="index%20Archivos/DefaultContainerLink.svg" height="35" alt="" onerror="this.onerror=null;this.src='language/nfr/images/DefaultContainerLink.svg';">
+        – –
+    </a>
+</li><li parent="#add-CorrelationLink-dropdown">
+    <a id="d-add-CorrelationLink" title="Add a unknown CorrelationLink" href="#">
+        <img id="d-add-CorrelationLink-img" src="index%20Archivos/DefaultContainerLink.svg" height="35" alt="" onerror="this.onerror=null;this.src='language/nfr/images/DefaultContainerLink.svg';">
+        unknown
+    </a>
+</li></ul>
+    </div>
+</span><span class="add-button">
+    <button type="button" class="btn btn-default add-button" id="add-Argument" title="Add Argument link from a Claim to a link">
+        <img src="index%20Archivos/ArgumentLink.svg" height="25" alt="" onerror="this.onerror=null;this.src='language/nfr/images/DefaultContainerLink.svg';">
+        <br>Argument
+    </button>
+</span></span>
+                </div>
+            </div>
+
+            <div class="line-break"></div>
+            <div id="status-bar">
+                <span id="status"></span>
+            </div>
+        </div>
+
+        <div id="menu-diagram" class="menu-body hidden">
+            <div class="menu-group">
+                <div class="title">Diagram Size</div>
+                <div class="menu-line">
+                    Width:&nbsp; <input id="input-diagram-width" type="text" name="width" value="2000" size="4" maxlength="6" title="Set the diagram's width (in pixels)"> px
+                </div>
+                <div class="menu-line">
+                    Height:&nbsp; <input id="input-diagram-height" type="text" name="height" value="1300" size="4" maxlength="6" title="Set the diagram's height (in pixels)"> px
+                </div>
+                <!--<span class="menu-line"><a id="fit-to-content-button" class="btn btn-default btn-xs button-horizontal"><i class="glyphicon glyphicon-resize-small"></i> Fit to content</a></span> TODO-->
+            </div>
+            <!--<div class="menu-group">-->
+            <!--<span class="title">colors</span>-->
+            <!--<span class="menu-line">Actor boundary:-->
+            <!--<input id="all-actor-boundary-color-picker" onchange="console.log('change event');" class="jscolor {hash:true}" value="e6e6e6" size="8">-->
+            <!--</span>-->
+            <!--<span class="menu-line">Elements:-->
+            <!--<input id="all-elements-color-picker" class="jscolor {hash:true}" value="ccfacd" size="8">-->
+            <!--</span>-->
+            <!--<span class="menu-line">-->
+            <!--<a id="reset-all-colors-button" class="btn btn-default btn-xs button-horizontal"><i class="glyphicon glyphicon-erase"></i> Reset colors</a>-->
+            <!--</span>-->
+            <!--</div>-->
+            <!--<div class="menu-group">-->
+            <!--<span class="title">text</span>-->
+            <!--<span class="menu-line">Font size: <input type="number" name="fontsize" value="12" min="4" max="999"></span>-->
+            <!--<span class="menu-line"><a class="btn btn-default btn-xs" data-toggle="button"><i class="glyphicon glyphicon-italic"></i></a></span>-->
+            <!--</div>-->
+            <div class="menu-group">
+                <span class="menu-line">
+                    <a id="menu-button-precise-links" class="btn btn-default btn-xs button-horizontal" title="Remove gaps between links and elements; recommended to apply before saving an image. It may take some seconds">
+                      <span class="glyphicon glyphicon-screenshot"></span> Pixel-perfect links
+                    </a>
+                    </span>
+                <span class="menu-line">
+                    <a id="menu-button-toggle-fullscreen" class="btn btn-default btn-xs button-horizontal" title="Fullscreen toggle">
+                      <span class="glyphicon glyphicon-fullscreen"></span> Toggle fullscreen
+                    </a>
+                    </span>
+                <span class="menu-line">
+                    <a id="menu-button-straighten-links" class="btn btn-default btn-xs button-horizontal" title="Straighten all links">
+                      <span class="glyphicon glyphicon-minus"></span> Straighten all links
+                    </a>
+                </span>
+            </div>
+
+            <!--<div class="menu-group">-->
+                <!--<div class="title">View</div>-->
+                <!--<span class="menu-line">-->
+                    <!--<a id="menu-button-toggle-dependencies-display" class="btn btn-default btn-xs button-horizontal"-->
+                       <!--title="Toggle between partially hiding, completely hiding, or displaying dependencies">-->
+                      <!--<span class="glyphicon glyphicon-eye-close"></span> Hide/show dependencies-->
+                    <!--</a>-->
+                <!--</span>-->
+                <!--<span class="menu-line">-->
+                    <!--<a id="menu-button-toggle-contributions-display" class="btn btn-default btn-xs button-horizontal"-->
+                       <!--title="Toggle between partially hiding, completely hiding, or displaying contribution links">-->
+                      <!--<span class="glyphicon glyphicon-eye-close"></span> Hide/show contribution links-->
+                    <!--</a>-->
+                <!--</span>-->
+            <!--</div>-->
+        </div>
+
+        <div id="menu-plugin" class="menu-body hidden">
+            <div id="appToolbar"></div> <!-- this div is DEPRECATED. Instead, add elements directly to #menu-plugin -->
+        </div>
+
+    </div>
+
+    <div id="workspace">
+        <div id="sidepanel" class="size2">
+            <div id="regular-size-options">
+                <a href="#" class="collapse-sidepanel-button" title="Collapse panel">-</a>
+                <a href="#" id="uncollapsed-expand-sidepanel-button" class="expand-sidepanel-button" title="Expand panel">+</a>
+            </div>
+            <div id="collapsed-size-options" class="expand-sidepanel-button" title="click to expand this sidepanel">
+                <div id="collapsed-size-options-button">
+                    <a href="#">+</a>
+                </div>
+                <a href="#" class="collapsed-size-options-area"></a>
+            </div>
+
+
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active" id="sidepanel-tab-properties"><a href="#subpanel-properties" aria-controls="subpanel-properties" role="tab" data-toggle="tab">Properties</a></li>
+                <li role="presentation" id="sidepanel-tab-style" style="display: none;"><a href="#subpanel-style" aria-controls="subpanel-style" role="tab" data-toggle="tab">Style</a></li>
+            </ul>
+
+            <div class="sidepanel-content tab-content">
+
+                <div id="subpanel-properties" role="tabpanel" class="tab-pane active">
+                    <table class="table table-hover" id="properties-table">
+                        <tbody>
+    <tr>
+        <th scope="row" class="property-name">Name</th>
+        <td class="property-value">
+            <a href="#" id="currentName" class="property-value editable editable-click" data-type="text" data-pk="1" data-name="Name" data-title="Enter Name">Example NFR model</a>
+        </td>
+    </tr>
+
+    <tr>
+        <th scope="row" class="property-name">Description</th>
+        <td class="property-value">
+            <a href="#" id="currentDescription" class="property-value editable editable-pre-wrapped editable-click" data-type="textarea" data-pk="1" data-name="Description" data-title="Enter Description">This tool supports two things that are often troublesome to develop with generic modelling frameworks:
+ - draw complex shapes (clouds) without distorting when they are resized
+ - create links from an element to a link (claim links)</a>
+        </td>
+    </tr>
+</tbody>
+                    </table>
+
+                    <div id="add-property-button-area"><a href="#" id="add-property-button" class="property-add" data-type="text" data-pk="1" data-name="name" data-title="Enter description" data-placeholder="ahhhh" title="Add a new property to this element">        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>        Add Property</a></div>
+
+                    <div id="sidepanel-title-actions" class="sidepanel-title" style="display: none;">Actions:</div>
+                    <div id="cell-actions"></div>
+
+                </div>
+
+                <div id="subpanel-style" role="tabpanel" class="tab-pane">
+
+                    <div class="sidepanel-title">Element:</div>
+                    <div class="group">
+                        Color:&nbsp;
+                        <input id="single-element-color-picker" class="jscolor {hash:true}" value="#CCFACD" size="8" autocomplete="off" style="background-image: none; background-color: rgb(204, 250, 205); color: rgb(0, 0, 0);">
+                        <a id="reset-element-color-button" class="btn btn-default btn-xs button-horizontal"><i class="glyphicon glyphicon-erase"></i> Reset color</a>
+                        <!-- <br>Line style:&nbsp;
+                        <select>
+                          <option value="volvo">solid</option>
+                          <option value="saab">dashed</option>
+                          <option value="mercedes">dotted</option>
+                        </select>
+                        <br>Line thickness:&nbsp;
+                        <input type="number" name="quantity" min="1" max="25" value ="2">
+                        <br><input type="checkbox" name="" value=""> shadow
+                        <br><input type="checkbox" name="" value=""> hand-drawn
+                        <br><input type="checkbox" name="" value=""> auto-break lines -->
+                    </div>
+
+
+                    <!-- <div class="sidepanel-title">Text:</div>
+                    <div class="group">
+                      Color: <input id="single-element-color-picker" class="jscolor {hash:true}" value="000" size="8">
+                      <a id="reset-element-color-button" class="btn btn-default btn-xs button-horizontal"><i class="glyphicon glyphicon-erase"></i> Reset color</a>
+                      <br><button style="font-weight:1000;">B</button><button style="font-style: italic;">I</button><button style="text-decoration: underline;">U</button><button style="text-decoration: line-through;">S</button>
+                      <br>Size: <input type="number" name="quantity" min="1" max="25" value ="12">
+                      <br>Top padding: <input type="number" name="quantity" min="1" max="25" value ="2">
+                      <br>Letter spacing: <input type="number" name="quantity" min="-10" max="25" value ="0">
+                      <br>Word spacing: <input type="number" name="quantity" min="-10" max="25" value ="0">
+                      <br>Line height: <input type="number" name="quantity" min="0.1" max="10" value ="1.1" step="0.1">
+                      <br><input type="checkbox" name="" value=""> shadow
+                      <br><input type="checkbox" name="" value=""> uppercase
+                    </div> -->
+
+                </div>
+            </div>
+
+        </div>
+
+        <div id="out">
+            <div class="cell-selection" style="display: none;"></div>
+            <div id="resize-handle" style="display: none;"></div>
+            <div id="diagram" class="joint-paper joint-theme-default" style="width: 2000px; height: 1300px;"><div class="joint-paper-background"></div><div class="joint-paper-grid"></div><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1" id="v-2" width="100%" height="100%"><defs id="v-4"><marker id="v-2-479506292" orient="auto" overflow="visible" markerUnits="userSpaceOnUse"><path id="v-80" stroke="black" fill="none" transform="rotate(180)" d="m 10,-6 l 0,12" stroke-width="1.2"></path></marker><marker id="v-21429980022" orient="auto" overflow="visible" markerUnits="userSpaceOnUse"><path id="v-90" stroke="black" fill="none" transform="rotate(180)" d="m 10,-6 l -10,6 10,6" stroke-width="1.2"></path></marker></defs><g id="v-3" class="joint-viewport"><g model-id="b79575b1-2b32-466b-bd0f-2f2f41cbcf41" id="j_1" class="joint-cell joint-type-nfr joint-element joint-theme-default" data-type="NFR" fill="#ffffff" stroke="none" transform="translate(204,213)"><g class="scalable" transform="scale(0.7010005021597221,1.0629032399561242)"><path class="element" id="v-6" d="M 0 0 a 26.1831 26.1831 0 0 1 25 -3 a 18.8816 18.8816 0 0 1 27 -5 a 15.2684 15.2684 0 0 1 17.4999 3.25 a 19.182 19.182 0 0 1 24 -5 a 11.2361 11.2361 0 0 1 14.5 6.5 a 7.5085 7.5085 0 0 1 7 9 a 6.51159 6.51159 0 0 1 2.5 9.99998 a 7.67717 7.67717 0 0 1 -9 9.5 a 18.0487 18.0487 0 0 1 -17.25 3.625 a 41.1115 41.1115 0 0 1 -50.25 4.25 a 20.8059 20.8059 0 0 1 -22.25 0.25 a 28.5345 28.5345 0 0 1 -19.75 -6 a 12.0307 12.0307 0 0 1 -2.75 -21.75 a 6.06009 6.06009 0 0 1 3.74945 -5.62563 Z" stroke-width="2" vector-effect="non-scaling-stroke" fill="#ffffff" stroke="#000000" transform="matrix(1,0,0,1,9.5,12)"></path></g><text class="content" id="v-7" font-size="12" xml:space="preserve" y="0.8em" font-weight="bold" text-anchor="middle" fill="#000000" font-family="Arial, helvetica, sans-serif" transform="matrix(1,0,0,1,45,23.700000762939453)"><tspan class="v-line" dy="0">Security</tspan></text></g><g model-id="cdfac142-9e92-403f-a3c9-b1858a5e6e77" id="j_2" class="joint-cell joint-type-nfr joint-element joint-theme-default" data-type="NFR" fill="#ffffff" stroke="none" transform="translate(172,302)"><g class="scalable" transform="scale(0.8029049394020011,1.023995645154153)"><path class="element" id="v-14" d="M 0 0 a 26.1831 26.1831 0 0 1 25 -3 a 18.8816 18.8816 0 0 1 27 -5 a 15.2684 15.2684 0 0 1 17.4999 3.25 a 19.182 19.182 0 0 1 24 -5 a 11.2361 11.2361 0 0 1 14.5 6.5 a 7.5085 7.5085 0 0 1 7 9 a 6.51159 6.51159 0 0 1 2.5 9.99998 a 7.67717 7.67717 0 0 1 -9 9.5 a 18.0487 18.0487 0 0 1 -17.25 3.625 a 41.1115 41.1115 0 0 1 -50.25 4.25 a 20.8059 20.8059 0 0 1 -22.25 0.25 a 28.5345 28.5345 0 0 1 -19.75 -6 a 12.0307 12.0307 0 0 1 -2.75 -21.75 a 6.06009 6.06009 0 0 1 3.74945 -5.62563 Z" stroke-width="2" vector-effect="non-scaling-stroke" fill="#ffffff" stroke="#000000" transform="matrix(1,0,0,1,9.5,12)"></path></g><text class="content" id="v-15" font-size="12" xml:space="preserve" y="0.8em" font-weight="bold" text-anchor="middle" fill="#000000" font-family="Arial, helvetica, sans-serif" transform="matrix(1,0,0,1,51.599998474121094,23)"><tspan class="v-line" dy="0">Confidenciality</tspan></text></g><g model-id="c578c382-617b-4f83-9454-5f0019d759c1" id="j_3" class="joint-cell joint-type-nfr joint-element joint-theme-default" data-type="NFR" fill="#ffffff" stroke="none" transform="translate(286,293)"><g class="scalable" transform="scale(0.7561778428146437,1.1785714410776666)"><path class="element" id="v-22" d="M 0 0 a 26.1831 26.1831 0 0 1 25 -3 a 18.8816 18.8816 0 0 1 27 -5 a 15.2684 15.2684 0 0 1 17.4999 3.25 a 19.182 19.182 0 0 1 24 -5 a 11.2361 11.2361 0 0 1 14.5 6.5 a 7.5085 7.5085 0 0 1 7 9 a 6.51159 6.51159 0 0 1 2.5 9.99998 a 7.67717 7.67717 0 0 1 -9 9.5 a 18.0487 18.0487 0 0 1 -17.25 3.625 a 41.1115 41.1115 0 0 1 -50.25 4.25 a 20.8059 20.8059 0 0 1 -22.25 0.25 a 28.5345 28.5345 0 0 1 -19.75 -6 a 12.0307 12.0307 0 0 1 -2.75 -21.75 a 6.06009 6.06009 0 0 1 3.74945 -5.62563 Z" stroke-width="2" vector-effect="non-scaling-stroke" fill="#ffffff" stroke="#000000" transform="matrix(1,0,0,1,9.5,12)"></path></g><text class="content" id="v-23" font-size="12" xml:space="preserve" y="0.8em" font-weight="bold" text-anchor="middle" fill="#000000" font-family="Arial, helvetica, sans-serif" transform="matrix(1,0,0,1,48.599998474121094,25.799999237060547)"><tspan class="v-line" dy="0">Authentication</tspan></text></g><g model-id="67e5a5df-ff16-4fae-bbfa-235881aa03e1" id="j_4" class="joint-cell joint-type-operationalization joint-element joint-theme-default" data-type="Operationalization" fill="#ffffff" stroke="none" transform="translate(128,422)"><g class="scalable" transform="scale(0.9430900669302418,1.0433300047695633)"><path class="element" id="v-30" d="M 0 0 a 26.1831 26.1831 0 0 1 25 -3 a 18.8816 18.8816 0 0 1 27 -5 a 15.2684 15.2684 0 0 1 17.4999 3.25 a 19.182 19.182 0 0 1 24 -5 a 11.2361 11.2361 0 0 1 14.5 6.5 a 7.5085 7.5085 0 0 1 7 9 a 6.51159 6.51159 0 0 1 2.5 9.99998 a 7.67717 7.67717 0 0 1 -9 9.5 a 18.0487 18.0487 0 0 1 -17.25 3.625 a 41.1115 41.1115 0 0 1 -50.25 4.25 a 20.8059 20.8059 0 0 1 -22.25 0.25 a 28.5345 28.5345 0 0 1 -19.75 -6 a 12.0307 12.0307 0 0 1 -2.75 -21.75 a 6.06009 6.06009 0 0 1 3.74945 -5.62563 Z" fill="white)" stroke="black" stroke-width="5" vector-effect="non-scaling-stroke" transform="matrix(1,0,0,1,9.5,12)"></path></g><text class="content" id="v-31" font-size="12" xml:space="preserve" y="0.8em" font-weight="bold" text-anchor="middle" fill="#000000" font-family="Arial, helvetica, sans-serif" transform="matrix(1,0,0,1,60.599998474121094,17.299999237060547)"><tspan class="v-line" dy="0">Encrypt&nbsp;with&nbsp;RSA</tspan><tspan dy="1em" x="0" class="v-line">128&nbsp;bits</tspan></text></g><g model-id="1f16044e-7b7a-49c3-b8ac-8b3bb2410b3c" id="j_5" class="joint-cell joint-type-operationalization joint-element joint-theme-default" data-type="Operationalization" fill="#ffffff" stroke="none" transform="translate(229,457)"><g class="scalable" transform="scale(0.9041502291243506,1.0819715946790185)"><path class="element" id="v-38" d="M 0 0 a 26.1831 26.1831 0 0 1 25 -3 a 18.8816 18.8816 0 0 1 27 -5 a 15.2684 15.2684 0 0 1 17.4999 3.25 a 19.182 19.182 0 0 1 24 -5 a 11.2361 11.2361 0 0 1 14.5 6.5 a 7.5085 7.5085 0 0 1 7 9 a 6.51159 6.51159 0 0 1 2.5 9.99998 a 7.67717 7.67717 0 0 1 -9 9.5 a 18.0487 18.0487 0 0 1 -17.25 3.625 a 41.1115 41.1115 0 0 1 -50.25 4.25 a 20.8059 20.8059 0 0 1 -22.25 0.25 a 28.5345 28.5345 0 0 1 -19.75 -6 a 12.0307 12.0307 0 0 1 -2.75 -21.75 a 6.06009 6.06009 0 0 1 3.74945 -5.62563 Z" fill="white)" stroke="black" stroke-width="5" vector-effect="non-scaling-stroke" transform="matrix(1,0,0,1,9.5,12)"></path></g><text class="content" id="v-39" font-size="12" xml:space="preserve" y="0.8em" font-weight="bold" text-anchor="middle" fill="#000000" font-family="Arial, helvetica, sans-serif" transform="matrix(1,0,0,1,58.099998474121094,18)"><tspan class="v-line" dy="0">Encrypt&nbsp;with&nbsp;RSA</tspan><tspan dy="1em" x="0" class="v-line">260&nbsp;bits</tspan></text></g><g model-id="77371218-ae0f-4043-b500-9c75894788ee" id="j_6" class="joint-cell joint-type-claim joint-element joint-theme-default" data-type="Claim" fill="#ffffff" stroke="none" transform="translate(31,342)"><g class="scalable" transform="scale(0.7010005021597221,1.0629032399561242)"><path class="element" id="v-46" d="M 0 0 a 26.1831 26.1831 0 0 1 25 -3 a 18.8816 18.8816 0 0 1 27 -5 a 15.2684 15.2684 0 0 1 17.4999 3.25 a 19.182 19.182 0 0 1 24 -5 a 11.2361 11.2361 0 0 1 14.5 6.5 a 7.5085 7.5085 0 0 1 7 9 a 6.51159 6.51159 0 0 1 2.5 9.99998 a 7.67717 7.67717 0 0 1 -9 9.5 a 18.0487 18.0487 0 0 1 -17.25 3.625 a 41.1115 41.1115 0 0 1 -50.25 4.25 a 20.8059 20.8059 0 0 1 -22.25 0.25 a 28.5345 28.5345 0 0 1 -19.75 -6 a 12.0307 12.0307 0 0 1 -2.75 -21.75 a 6.06009 6.06009 0 0 1 3.74945 -5.62563 Z" fill="white)" stroke="black" stroke-dasharray="10,5" stroke-width="1" vector-effect="non-scaling-stroke" transform="matrix(1,0,0,1,9.5,12)"></path></g><text class="content" id="v-47" font-size="12" xml:space="preserve" y="0.8em" font-weight="bold" text-anchor="middle" fill="#000000" font-family="Arial, helvetica, sans-serif" transform="matrix(1,0,0,1,45,11.699999809265137)"><tspan class="v-line" dy="0">Can&nbsp;be</tspan><tspan dy="1em" x="0" class="v-line">broken</tspan><tspan dy="1em" x="0" class="v-line">quickly</tspan></text></g><g model-id="ba10f8ed-95c2-4b35-b7da-9d31c4750a0e" id="j_7" class="joint-cell joint-type-nfr joint-element joint-theme-default" data-type="NFR" fill="#ffffff" stroke="none" transform="translate(431,140)"><g class="scalable" transform="scale(0.7010005021597221,1.0629032399561242)"><path class="element" id="v-54" d="M 0 0 a 26.1831 26.1831 0 0 1 25 -3 a 18.8816 18.8816 0 0 1 27 -5 a 15.2684 15.2684 0 0 1 17.4999 3.25 a 19.182 19.182 0 0 1 24 -5 a 11.2361 11.2361 0 0 1 14.5 6.5 a 7.5085 7.5085 0 0 1 7 9 a 6.51159 6.51159 0 0 1 2.5 9.99998 a 7.67717 7.67717 0 0 1 -9 9.5 a 18.0487 18.0487 0 0 1 -17.25 3.625 a 41.1115 41.1115 0 0 1 -50.25 4.25 a 20.8059 20.8059 0 0 1 -22.25 0.25 a 28.5345 28.5345 0 0 1 -19.75 -6 a 12.0307 12.0307 0 0 1 -2.75 -21.75 a 6.06009 6.06009 0 0 1 3.74945 -5.62563 Z" stroke-width="2" vector-effect="non-scaling-stroke" fill="#ffffff" stroke="#000000" transform="matrix(1,0,0,1,9.5,12)"></path></g><text class="content" id="v-55" font-size="12" xml:space="preserve" y="0.8em" font-weight="bold" text-anchor="middle" fill="#000000" font-family="Arial, helvetica, sans-serif" transform="matrix(1,0,0,1,45,23.700000762939453)"><tspan class="v-line" dy="0">Usability</tspan></text></g><g model-id="457b4872-538b-458d-8bd2-71564f69f1ee" id="j_8" class="joint-cell joint-type-operationalization joint-element joint-theme-default" data-type="Operationalization" fill="#ffffff" stroke="none" transform="translate(292,402)"><g class="scalable" transform="scale(1.1300062618616968,1.0529957101576288)"><path class="element" id="v-62" d="M 0 0 a 26.1831 26.1831 0 0 1 25 -3 a 18.8816 18.8816 0 0 1 27 -5 a 15.2684 15.2684 0 0 1 17.4999 3.25 a 19.182 19.182 0 0 1 24 -5 a 11.2361 11.2361 0 0 1 14.5 6.5 a 7.5085 7.5085 0 0 1 7 9 a 6.51159 6.51159 0 0 1 2.5 9.99998 a 7.67717 7.67717 0 0 1 -9 9.5 a 18.0487 18.0487 0 0 1 -17.25 3.625 a 41.1115 41.1115 0 0 1 -50.25 4.25 a 20.8059 20.8059 0 0 1 -22.25 0.25 a 28.5345 28.5345 0 0 1 -19.75 -6 a 12.0307 12.0307 0 0 1 -2.75 -21.75 a 6.06009 6.06009 0 0 1 3.74945 -5.62563 Z" fill="white)" stroke="black" stroke-width="5" vector-effect="non-scaling-stroke" transform="matrix(1,0,0,1,9.5,12)"></path></g><text class="content" id="v-63" font-size="12" xml:space="preserve" y="0.8em" font-weight="bold" text-anchor="middle" fill="#000000" font-family="Arial, helvetica, sans-serif" transform="matrix(1,0,0,1,72.5999984741211,17.5)"><tspan class="v-line" dy="0">Login&nbsp;with&nbsp;Username</tspan><tspan dy="1em" x="0" class="v-line">and&nbsp;Password</tspan></text></g><g model-id="8d514b0b-be68-418b-bb80-3d119509c939" id="j_9" class="joint-cell joint-type-nfr joint-element joint-theme-default" data-type="NFR" fill="#ffffff" stroke="none" transform="translate(466,476)"><g class="scalable" transform="scale(3.848054878569651,5.487125229481898)"><path class="element" id="v-70" d="M 0 0 a 26.1831 26.1831 0 0 1 25 -3 a 18.8816 18.8816 0 0 1 27 -5 a 15.2684 15.2684 0 0 1 17.4999 3.25 a 19.182 19.182 0 0 1 24 -5 a 11.2361 11.2361 0 0 1 14.5 6.5 a 7.5085 7.5085 0 0 1 7 9 a 6.51159 6.51159 0 0 1 2.5 9.99998 a 7.67717 7.67717 0 0 1 -9 9.5 a 18.0487 18.0487 0 0 1 -17.25 3.625 a 41.1115 41.1115 0 0 1 -50.25 4.25 a 20.8059 20.8059 0 0 1 -22.25 0.25 a 28.5345 28.5345 0 0 1 -19.75 -6 a 12.0307 12.0307 0 0 1 -2.75 -21.75 a 6.06009 6.06009 0 0 1 3.74945 -5.62563 Z" stroke-width="2" vector-effect="non-scaling-stroke" fill="#FAD0FA" stroke="#000000" transform="matrix(1,0,0,1,9.5,12)"></path></g><text class="content" id="v-71" font-size="12" xml:space="preserve" y="0.8em" font-weight="bold" text-anchor="middle" fill="#000000" font-family="Arial, helvetica, sans-serif" transform="matrix(1,0,0,1,247.10000610351562,103.9000015258789)"><tspan class="v-line" dy="0">Example&nbsp;of&nbsp;a&nbsp;big,&nbsp;colored&nbsp;NFR</tspan></text></g><g model-id="34099a1a-dd1f-42aa-97ac-9b66612dbf12" id="j_10" class="joint-cell joint-type-andrefinementlink joint-link joint-theme-default" data-type="AndRefinementLink"><path class="c-connection-wrap" joint-selector="connection-wrap" id="v-79" fill="none" d="M 231.21 302.01 L 241.05 268.01"></path><path joint-selector="line" id="v-78" fill="none" stroke="black" stroke-width="1" d="M 231.21 302.01 L 241.05 268.01" marker-end="url(#v-2-479506292)"></path></g><g model-id="b0681ddc-b225-4c46-9b46-f2ec98ad6174" id="j_11" class="joint-cell joint-type-andrefinementlink joint-link joint-theme-default" data-type="AndRefinementLink"><path class="c-connection-wrap" joint-selector="connection-wrap" id="v-83" fill="none" d="M 303.12 293.01 L 277.35 268.01"></path><path joint-selector="line" id="v-82" fill="none" stroke="black" stroke-width="1" d="M 303.12 293.01 L 277.35 268.01" marker-end="url(#v-2-479506292)"></path></g><g model-id="41e1958b-0636-4be3-ba5f-5d62eb96b4f2" id="j_12" class="joint-cell joint-type-contributionlink joint-link joint-theme-default" data-type="ContributionLink"><path class="c-connection-wrap" joint-selector="connection-wrap" id="v-89" fill="none" d="M 275.69 457.01 L 234.3 355"></path><path joint-selector="line" id="v-88" fill="none" stroke="black" stroke-width="1" d="M 275.69 457.01 L 234.3 355" marker-end="url(#v-21429980022)"></path><g id="v-84" class="labels"><g id="v-85" class="label" label-idx="0" cursor="default" transform="translate(254.995, 406.005)"><rect joint-selector="rect" id="v-87" fill="white" rx="3" ry="3" stroke="white" stroke-width="5" width="11.683333396911621" height="22" transform="matrix(1,0,0,1,-5.800000190734863,-11)"></rect><text joint-selector="text" id="v-86" fill="#000000" font-size="20" text-anchor="middle" pointer-events="none" font-family="sans-serif" font-weight="bold" xml:space="preserve" y="0.8em" transform="matrix(1,0,0,1,0,-9)"><tspan class="v-line" dy="0">+</tspan></text></g></g></g><g model-id="3a57f4d9-a905-4b55-9d17-82e951a79558" id="j_13" class="joint-cell joint-type-contributionlink joint-link joint-theme-default" data-type="ContributionLink"><path class="c-connection-wrap" joint-selector="connection-wrap" id="v-97" fill="none" d="M 196.39 422.01 L 215.85 355"></path><path joint-selector="line" id="v-96" fill="none" stroke="black" stroke-width="1" d="M 196.39 422.01 L 215.85 355" marker-end="url(#v-21429980022)"></path><g id="v-92" class="labels"><g id="v-93" class="label" label-idx="0" cursor="default" transform="translate(206.12, 388.505)"><rect joint-selector="rect" id="v-95" fill="white" rx="3" ry="3" stroke="white" stroke-width="5" width="11.199999809265137" height="22" transform="matrix(1,0,0,1,-5.599999904632568,-11)"></rect><text joint-selector="text" id="v-94" fill="#000000" font-size="20" text-anchor="middle" pointer-events="none" font-family="sans-serif" font-weight="bold" xml:space="preserve" y="0.8em" transform="matrix(1,0,0,1,0,-9)"><tspan class="v-line" dy="0">–</tspan></text></g></g></g><g model-id="07253b02-57e8-44aa-8b61-2e08b5710198" id="j_14" class="joint-cell joint-type-contributionlink joint-link joint-theme-default" data-type="ContributionLink"><path class="c-connection-wrap" joint-selector="connection-wrap" id="v-103" fill="none" d="M 356.82 402.01 L 343.2 354"></path><path joint-selector="line" id="v-102" fill="none" stroke="black" stroke-width="1" d="M 356.82 402.01 L 343.2 354" marker-end="url(#v-21429980022)"></path><g id="v-98" class="labels"><g id="v-99" class="label" label-idx="0" cursor="default" transform="translate(350.01, 378.005)"><rect joint-selector="rect" id="v-101" fill="white" rx="3" ry="3" stroke="white" stroke-width="5" width="11.683333396911621" height="22" transform="matrix(1,0,0,1,-5.800000190734863,-11)"></rect><text joint-selector="text" id="v-100" fill="#000000" font-size="20" text-anchor="middle" pointer-events="none" font-family="sans-serif" font-weight="bold" xml:space="preserve" y="0.8em" transform="matrix(1,0,0,1,0,-9)"><tspan class="v-line" dy="0">+</tspan></text></g></g></g><g model-id="475c8651-9281-4653-855a-e268868173ca" id="j_15" class="joint-cell joint-type-correlationlink joint-link joint-theme-default" data-type="CorrelationLink"><path class="c-connection-wrap" joint-selector="connection-wrap" id="v-109" fill="none" d="M 383.09 299.91 C 413.71000000000004 290.1966666666667 444.3300000000001 280.48333333333335 459 263 C 473.6699999999999 245.51666666666668 472.39 220.26333333333332 471.11 195.01"></path><path joint-selector="line" id="v-108" fill="none" stroke="black" stroke-dasharray="10,5" stroke-width="1" d="M 383.09 299.91 C 413.71000000000004 290.1966666666667 444.3300000000001 280.48333333333335 459 263 C 473.6699999999999 245.51666666666668 472.39 220.26333333333332 471.11 195.01" marker-end="url(#v-21429980022)"></path><g id="v-104" class="labels"><g id="v-105" class="label" label-idx="0" cursor="default" transform="translate(453.8447658258677, 268.2816592377424)"><rect joint-selector="rect" id="v-107" fill="white" rx="3" ry="3" stroke="white" stroke-width="5" width="63.91666793823242" height="22" transform="matrix(1,0,0,1,-32,-11)"></rect><text joint-selector="text" id="v-106" fill="#000000" font-size="20" text-anchor="middle" pointer-events="none" font-family="sans-serif" font-weight="bold" xml:space="preserve" y="0.8em" transform="matrix(1,0,0,1,0,-9)"><tspan class="v-line" dy="0">some+</tspan></text></g></g></g><g model-id="fb3215c7-154c-41ab-bcf8-f2145aa8af1c" id="j_16" class="joint-cell joint-type-argumentlink joint-link joint-theme-default" data-type="ArgumentLink"><path class="c-connection-wrap" joint-selector="connection-wrap" id="v-115" fill="none" d="M 121.01 376.08 L 206.12 388.505"></path><path joint-selector="line" id="v-114" fill="none" stroke="black" stroke-width="1" d="M 121.01 376.08 L 206.12 388.505" marker-end="url(#v-21429980022)"></path><g id="v-110" class="labels"><g id="v-111" class="label" label-idx="0" cursor="default" transform="translate(163.565, 382.2925)"><rect joint-selector="rect" id="v-113" fill="white" rx="3" ry="3" stroke="white" stroke-width="5" width="0" height="0" transform="matrix(1,0,0,1,0,0)"></rect><text joint-selector="text" id="v-112" fill="#000000" font-size="20" text-anchor="middle" pointer-events="none" font-family="sans-serif" font-weight="bold"></text></g></g></g></g><g id="v-5" class="joint-tools-container"><g class="joint-tools joint-theme-default"><g class="joint-tool joint-theme-default" data-tool-name="vertices" model-id="34099a1a-dd1f-42aa-97ac-9b66612dbf12" style="display: none;"><path fill="none" stroke="transparent" stroke-width="10" cursor="cell" class="joint-vertices-path" joint-selector="connection" d="M 231.21 302.01 L 241.05 268.01"></path></g></g><g class="joint-tools joint-theme-default"><g class="joint-tool joint-theme-default" data-tool-name="vertices" model-id="b0681ddc-b225-4c46-9b46-f2ec98ad6174" style="display: none;"><path fill="none" stroke="transparent" stroke-width="10" cursor="cell" class="joint-vertices-path" joint-selector="connection" d="M 303.12 293.01 L 277.35 268.01"></path></g></g><g class="joint-tools joint-theme-default"><g class="joint-tool joint-theme-default" data-tool-name="vertices" model-id="41e1958b-0636-4be3-ba5f-5d62eb96b4f2" style="display: none;"><path fill="none" stroke="transparent" stroke-width="10" cursor="cell" class="joint-vertices-path" joint-selector="connection" d="M 275.69 457.01 L 234.3 355"></path></g></g><g class="joint-tools joint-theme-default"><g class="joint-tool joint-theme-default" data-tool-name="vertices" model-id="3a57f4d9-a905-4b55-9d17-82e951a79558" style="display: none;"><path fill="none" stroke="transparent" stroke-width="10" cursor="cell" class="joint-vertices-path" joint-selector="connection" d="M 196.39 422.01 L 215.85 355"></path></g></g><g class="joint-tools joint-theme-default"><g class="joint-tool joint-theme-default" data-tool-name="vertices" model-id="07253b02-57e8-44aa-8b61-2e08b5710198" style="display: none;"><path fill="none" stroke="transparent" stroke-width="10" cursor="cell" class="joint-vertices-path" joint-selector="connection" d="M 356.82 402.01 L 343.2 354"></path></g></g><g class="joint-tools joint-theme-default"><g class="joint-tool joint-theme-default" data-tool-name="vertices" model-id="475c8651-9281-4653-855a-e268868173ca" style="display: none;"><path fill="none" stroke="transparent" stroke-width="10" cursor="cell" class="joint-vertices-path" joint-selector="connection" d="M 362.2 293.01 L 451.07 195.01"></path></g></g><g class="joint-tools joint-theme-default"><g class="joint-tool joint-theme-default" data-tool-name="vertices" model-id="fb3215c7-154c-41ab-bcf8-f2145aa8af1c" style="display: none;"><path fill="none" stroke="transparent" stroke-width="10" cursor="cell" class="joint-vertices-path" joint-selector="connection" d="M 121.01 376.08 L 206.12 388.505"></path></g></g></g></svg></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- backbone templates -->
+<script type="text/template" id="add-button-template">
+    <button type="button" class="btn btn-default add-button" id="add-<%- label %>" title="<%- tooltip %>">
+        <img
+                src="language/nfr/images/<%- name %>.svg" height="25" alt="" onError="this.onerror=null;this.src='language/nfr/images/<%- defaultButtonImage %>';"/>
+        <br><%- label %>
+    </button>
+</script>
+
+<script type="text/template" id="add-dropdown-button-template">
+    <div class="add-dropdown-button dropdown">
+        <button class="btn add-button btn-default dropdown-toggle" type="button" id="menu-dropdown-<%- name %>"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
+                title="<%- tooltip %>">
+            <img src="language/nfr/images/<%- name %>.svg" height="25" alt="" onError="this.onerror=null;this.src='language/nfr/images/<%- defaultButtonImage %>';"/><br>
+            <%- label %>...
+            <span class="caret"></span>
+        </button>
+        <ul id="add-<%- name %>-dropdown" class="dropdown-menu" aria-labelledby="menu-dropdown-<%- name %>"></ul>
+    </div>
+</script>
+
+<script type="text/template" id="add-dropdown-item-template">
+    <a id="d-add-<%- name %>" title="<%- tooltip %>" href="#">
+        <img id="d-add-<%- name %>-img" src="language/nfr/images/<%- buttonImage %>.svg" height="35" alt=""
+             onError="this.onerror=null;this.src='language/nfr/images/<%- defaultButtonImage %>';"/>
+        <%- label %>
+    </a>
+</script>
+
+
+<script type="text/template" id="property-template">
+    <tr>
+        <th scope="row" class="property-name"><%- propertyName %></th>
+        <td class="property-value">
+            <a href="#" id="current<%- propertyName %>" class="property-value" data-type="<%- dataType %>" data-pk="1"
+               data-name="<%- propertyName %>" data-title="Enter <%- propertyName %>"><%- propertyValue %></a>
+        </td>
+    </tr>
+</script>
+
+<div id="modals">
+
+    <div class="modal fade" id="modal-save-image" tabindex="-1" role="dialog" aria-labelledby="label-save-image-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="label-save-image-modal">Save model as image</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="modal-save-image-form" class="form-horizontal">
+                        <div class="form-group">
+                            <label for="input-filename" class="col-sm-2 control-label">File name: </label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="input-filename" value="goalDiagram" placeholder="goalDiagram">
+                            </div>
+                            <div class="col-sm-10">
+                                <div class="checkbox">
+                                    <label>
+                                        <input id="modal-input-precise-links" type="checkbox"> Pixel-perfect links (it may take some seconds longer)
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <select id="input-file-format" class="form-control" title="Select file format">
+                                    <option selected="selected">SVG</option>
+                                    <option>PNG</option>
+                                </select>
+
+                            </div>
+                            <div id="save-png-options" class="col-sm-6 hidden">
+                                <div class="checkbox">
+                                    <label title="If you're having trouble downloading large models, try to uncheck this">
+                                        <input id="modal-input-hi-res" type="checkbox" checked="checked"> High resolution
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label title="Transparent background">
+                                        <input id="modal-input-transparent-background" type="checkbox" checked="checked"> Transparent background
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="modal-button-save-image" type="button" class="btn btn-primary" data-save-text="Saving..." data-preparing-text="Preparing image... (please wait)">Save image
+                    </button>
+                    <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-load-model" tabindex="-1" role="dialog" aria-labelledby="label-load-model-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="label-load-model-modal">Load i* model from file</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="file" id="input-file-to-load" name="file">
+                    <br>
+                </div>
+                <div class="modal-footer">
+                    <button id="modal-button-load-model" type="button" class="btn btn-primary" data-loading-text="Loading...">Load
+                        model
+                    </button>
+                    <button type="button" class="btn" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- dependencies -->
+<script src="index%20Archivos/jquery.min.js"></script>
+<script src="index%20Archivos/lodash.min.js"></script>
+<script src="index%20Archivos/backbone.min.js"></script>
+<script src="index%20Archivos/joint.min.js"></script>
+
+<script src="index%20Archivos/jscolor.min.js"></script>
+<script src="index%20Archivos/bootstrap.min.js"></script>
+<script src="index%20Archivos/bootstrap-editable.min.js"></script>
+<script src="index%20Archivos/bootbox.min.js"></script>
+
+<!-- istar core -->
+<script src="index%20Archivos/istarFunctions.js"></script>
+<script src="index%20Archivos/metamodelManager.js"></script>
+<script src="index%20Archivos/fileManager.js"></script>
+<script src="index%20Archivos/defaultShapes.js"></script>
+<script src="index%20Archivos/ui.js"></script>
+<script src="index%20Archivos/addButton_003.js"></script>
+<script src="index%20Archivos/addButton_002.js"></script>
+<script src="index%20Archivos/addButtonDropdown.js"></script>
+<script src="index%20Archivos/addButtonDropdownItem.js"></script>
+<script src="index%20Archivos/addButton.js"></script>
+<script src="index%20Archivos/propertiesTable.js"></script>
+<script src="index%20Archivos/nfrexample.js"></script>
+
+<!-- language specific -->
+<script src="index%20Archivos/shapes.js"></script>
+<script src="index%20Archivos/metamodel.js"></script>
+<script src="index%20Archivos/constraints.js"></script>
+<script src="index%20Archivos/ui.metamodel.js"></script>
+
+<!-- insert your plugin(s) here, after this line -->
+
+<!-- end of plugin(s) area -->
+
+<script src="index%20Archivos/main.js"></script>
+
+
+
+</body></html>
