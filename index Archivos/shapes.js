@@ -182,7 +182,7 @@ joint.shapes.dsm3.ContributionLink = joint.dia.Link.define('ContributionLink',
                 attrs: {
                     text: {
                         'font-family': 'sans-serif',
-                        'font-size': 20,
+                        'font-size': 10,
                         'font-weight': 'bold'
                     },
                     rect: {
