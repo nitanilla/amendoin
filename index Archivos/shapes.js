@@ -240,7 +240,7 @@ joint.shapes.dsm3.CorrelationLink = joint.dia.Link.define('CorrelationLink',
                 attrs: {
                     text: {
                         'font-family': 'sans-serif',
-                        'font-size': 20,
+                        'font-size': 10,
                         'font-weight': 'bold'
                     },
                     rect: {
